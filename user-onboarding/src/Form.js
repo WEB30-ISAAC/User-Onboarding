@@ -4,25 +4,37 @@ function Form(props) {
     const {
         values,
         onInputChange,
+        onCheckboxChange,
         onSubmit,
         disabled,
         errors,
     } = props
 
     return (
-        <form className='user container'>
+        <form className='container'>
             <h2>User Form</h2>
             <div className='errors'>
-                <p>{errors.name}</p>
+                <p>{errors.first_name}</p>
+                <p>{errors.last_name}</p>
                 <p>{errors.email}</p>
                 <p>{errors.password}</p>
+                <p>{errors.tos}</p>
             </div>
 
-            <label>Name:&nbsp;
+            <label>First Name:&nbsp;
                 <input
-                    value={values.name}
+                    value={values.first_name}
                     onChange={onInputChange}
-                    name='name'
+                    name='first_name'
+                    type='text'
+                />
+            </label>
+
+            <label>Last Name:&nbsp;
+                <input
+                    value={values.last_name}
+                    onChange={onInputChange}
+                    name='last_name'
                     type='text'
                 />
             </label>
@@ -45,14 +57,14 @@ function Form(props) {
                 />
             </label>
 
-            {/* <label>Terms of Service:&nbsp;
+            <label>
                 <input
-                    value={values.tos}
-                    onChange={onInputChange}
-                    name='email'
-                    type='text'
-                />
-            </label> */}
+                    checked={values.tos}
+                    onChange={onCheckboxChange}
+                    name='tos'
+                    type="checkbox" 
+                /> Accept Terms of Service     
+            </label>
 
             <button onClick={onSubmit} disabled={disabled}>submit</button>
 

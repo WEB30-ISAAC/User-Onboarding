@@ -14,6 +14,7 @@ console.log(url)
 
 const initialFormValues = {
   first_name: '',
+  last_name: '',
   email: '',
   password: '',
   tos: false,
@@ -22,6 +23,7 @@ const initialFormValues = {
 
 const initialFormErrors = {
   first_name: '',
+  last_name: '',
   email: '',
   password: '',
   tos: false,
@@ -30,7 +32,11 @@ const initialFormErrors = {
 const formSchema = yup.object().shape({
   first_name: yup
     .string()
-    .min(4, 'Name must be atleast 4 characters')
+    .min(3, 'First Name must be atleast 3 characters')
+    .required('Name is required'),
+  last_name: yup
+    .string()
+    .min(3, 'Last Name must be atleast 3 characters')
     .required('Name is required'),
   email: yup
     .string()
@@ -38,10 +44,11 @@ const formSchema = yup.object().shape({
     .required('Email is required'),
   password: yup
     .string()
-    .min(8, 'Must be at least 8 characters long')
+    .min(8, 'Password Must be at least 8 characters long')
     .required('Password is Required'),
-  // tos: yup
-  //   .string
+  tos: yup
+    .boolean()
+    .required('Must accept Terms of Service')
 })
 
 export default function App() {
@@ -69,7 +76,7 @@ export default function App() {
     axios.post(url, user)
       .then(res => {
         console.log(res)
-        setUsers([...users, res.user])
+        setUsers([...users, res.data])
       })
       .catch(err => {
         debugger
@@ -87,18 +94,19 @@ export default function App() {
     evt.preventDefault()
 
     const newUser = {
-      name: formValues.first_name,
+      first_name: formValues.first_name,
+      last_name: formValues.last_name,
       email: formValues.email,
       password: formValues.password,
-      tos: formValues.tos
-    } //more work needs to be done here//
+      tos: Object.keys(formValues.tos)
+    }
 
     setFormValues(initialFormValues)
     postUser(newUser)
   }
 
   const onInputChange = evt => {
-    const name = evt.target.first_name
+    const name = evt.target.name
     const value = evt.target.value
 
 
@@ -110,13 +118,14 @@ export default function App() {
           ...formErrors,
           [name]: '',
         })
-        .catch(err => {
-          setFormErrors({
-            ...formErrors,
-            [name]: err.errors[0]
-          })
+      })
+      .catch(err => {
+        setFormErrors({
+          ...formErrors,
+          [name]: err.errors[0]
         })
       });
+
 
     setFormValues({
       ...formValues,
@@ -124,15 +133,15 @@ export default function App() {
     })
   }
 
-  // const onCheckboxChange = evt => {
-  //   const { name } = evt.target
-  //   const isChecked = evt.target.checked
+  const onCheckboxChange = evt => {
+    const { name } = evt.target
+    const isChecked = evt.target.checked
 
-  //   setFormValues({
-  //     ...formValues,
-
-  //   })
-  // }
+    setFormValues({
+      ...formValues, 
+      [name]:isChecked
+    })
+  }
 
   return (
     <div className="App">
@@ -143,6 +152,7 @@ export default function App() {
         <Form
           values={formValues}
           onInputChange={onInputChange}
+          onCheckboxChange={onCheckboxChange}
           onSubmit={onSubmit}
           disabled={formDisabled}
           errors={formErrors}
