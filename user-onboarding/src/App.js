@@ -158,6 +158,7 @@ export default function App() {
           errors={formErrors}
         />
 
+        <div className='user-container'>
         {
           users.map(user => {
             return(
@@ -165,6 +166,7 @@ export default function App() {
             )
           })
         }
+        </div>
 
       </header>
     </div>

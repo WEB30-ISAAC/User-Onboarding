@@ -6,8 +6,8 @@ function User({ details }) {
     }
     return (
         <div className='user'>
-            <h2>{details.first_name} {details.last_name}</h2>
-            <p>Email: {details.email}</p>
+            <span>{details.first_name}</span><span> {details.last_name}</span>
+            <p>{details.email}</p>
         </div>
     )
 };

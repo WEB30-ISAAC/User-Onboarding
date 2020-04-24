@@ -23,6 +23,7 @@ function Form(props) {
 
             <label>First Name:&nbsp;
                 <input
+                    data-cy_firstname_input='firstname_input'
                     value={values.first_name}
                     onChange={onInputChange}
                     name='first_name'
@@ -32,6 +33,7 @@ function Form(props) {
 
             <label>Last Name:&nbsp;
                 <input
+                    data-cy_lastname_input='lastname_input'
                     value={values.last_name}
                     onChange={onInputChange}
                     name='last_name'
